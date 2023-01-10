@@ -1,9 +1,3 @@
-const channelsReducer = (state = ['general', 'react', 'paris'], action) => {
-  switch (action.type) {
-    default:
-      return state
-  }
-
-}
+const channelsReducer = (state = null) => state;
 
 export default channelsReducer;

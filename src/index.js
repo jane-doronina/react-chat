@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
-import { applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import reduxPromise from "redux-promise"
+
+import App from './components/App';
+import './assets/stylesheets/index.scss';
 
 import messagesReducer from './reducers/messagesReducer';
 import channelsReducer from './reducers/channelsReducer';
 import selectedChannelReducer from './reducers/selectedChannelReducer';
 import currentUsernameReducer from './reducers/currentUsernameReducer';
 
-import './assets/stylesheets/index.scss';
+const initialState = {
+  messages: [],
+  channels: ['general', 'react', 'paris'],
+  currentUsername: prompt("What is your username?") || `anonymous${Math.floor(10 + (Math.random() * 90))}`,
+  selectedChannel: 'general'
+};
+
 
 const reducers = combineReducers({
   messages: messagesReducer,
@@ -27,7 +34,7 @@ const middlewares = applyMiddleware(logger, reduxPromise)
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={createStore(reducers, {}, middlewares)} >
+    <Provider store={createStore(reducers, initialState, middlewares)} >
       <App />
     </Provider>
   </React.StrictMode>
