@@ -1,13 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './assets/stylesheets/index.scss';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+import { applyMiddleware } from 'redux';
+import logger from 'redux-logger';
+import reduxPromise from "redux-promise"
+
+import messagesReducer from './reducers/messagesReducer';
+import channelsReducer from './reducers/channelsReducer';
+import selectedChannelReducer from './reducers/selectedChannelReducer';
+import currentUsernameReducer from './reducers/currentUsernameReducer';
+
+import './assets/stylesheets/index.scss';
+
+const reducers = combineReducers({
+  messages: messagesReducer,
+  channels: channelsReducer,
+  selectedChannel: selectedChannelReducer,
+  currentUsername: currentUsernameReducer
+})
+
+const middlewares = applyMiddleware(logger, reduxPromise)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={createStore(reducers, {}, middlewares)} >
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
